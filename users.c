@@ -1,0 +1,205 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+#include <stddef.h>
+#include "users.h"
+
+unsigned long long generate_random_10_digit_integer()
+{
+    unsigned long long result = 0;
+
+    // Seed the random number generator with the current time
+    srand((unsigned int)time(NULL));
+
+    // Generate the first 10 digits (each digit can be from 0 to 9)
+    // rand() will generate random integers
+    for (int i = 0; i < 10; i++)
+    {
+        result = result * 10 + rand() % 10; // rand() % 10 gives value between 0 to 9
+    }
+}
+
+User create_user(char *name, char *password, char *address, int birth_year, int birth_month, int birth_day, very_long_int phone_number)
+{
+    User u1;
+    u1.birth_year = birth_year;
+    strcpy(u1.password, password);
+    strcpy(u1.username, name);
+    strcpy(u1.address, address);
+    u1.birth_month = birth_month;
+    u1.birth_day = birth_day;
+    u1.phone_number = phone_number;
+
+    u1.account_number = generate_random_10_digit_integer();
+    // generating 10 digit random integer as account number
+    u1.balance = 0; // initializing balance to be 0
+
+    return u1;
+}
+
+// everytime i want to check if my function is working properly or not,
+// i have to type a long code to print the results, so creating function to print it will work
+void print_user(User user)
+{
+    printf("Username: %s\n", user.username);
+    printf("Password: %s\n", user.password);
+    printf("Address: %s\n", user.address);
+    printf("Account Number: %llu\n", user.account_number);
+    printf("Balance: %.2f\n", user.balance);
+    printf("Birth Year: %d\n", user.birth_year);
+    printf("Birth Month: %d\n", user.birth_month);
+    printf("Birth Day: %d\n", user.birth_day);
+    printf("Phone Number: %lld\n", user.phone_number);
+}
+
+// to save user to database
+void save_user_to_database(User user)
+{
+
+    FILE *fp;
+
+    fp = fopen(USER_DB_FILE, "a+");
+
+    if (fp == NULL)
+    {
+        puts("Cannot open file.\n");
+    }
+    else
+    {
+        fwrite(&user, sizeof(User), 1, fp); // 1st argument is structure ko address
+    }
+
+    fclose(fp);
+}
+
+User get_users_by_account_number(very_long_int useraccount_to_find)
+{
+    User user;
+    FILE *fp;
+
+    fp = fopen(USER_DB_FILE, "rb");
+    if (fp == NULL)
+    {
+        puts("Cannot open file.\n");
+    }
+    // read struct from file one by one until user with given account is found
+    // if user with account number not found return NULL
+    while (fread(&user, sizeof(User), 1, fp) == 1)
+    // fread returns number of object it read
+    // when 3rd argument is 1 , it should always return 1 cuz 3rd arguments specifies no of object we want
+    // until it reach the EOF it returns 0
+    {
+        if (user.account_number == useraccount_to_find)
+        {
+            fclose(fp);
+            return user;
+        }
+    }
+
+    // User returntype vako le garda return NULL ; garna milena. so
+    User empty_user;
+    empty_user.account_number = 0;
+    fclose(fp);
+    return empty_user;
+}
+
+// to get user
+User *get_all_users(int *num_users_pointer)
+{
+    /*
+    note: num_users is not input here, it is also output because we are not asking users to enter num_users
+        instead we are calculating num_users for our own ease.
+
+    */
+    FILE *fp;
+    User *users = 0; // initialize users to be 0
+
+    fp = fopen(USER_DB_FILE, "rb");
+    if (fp == NULL)
+    {
+        printf("Couldn't open file.\n");
+    }
+
+    // using fseek() and ftell() to know the size of the file
+    fseek(fp, 0, SEEK_END); // this means end dekhi 0 uta samma gayera point gar
+    long file_size = ftell(fp);
+    // ftell() tells current position of the file pointer within the file
+    *num_users_pointer = file_size / sizeof(User);
+   
+    fseek(fp, 0, SEEK_SET); // pointer lai feri suruma lagera xordiney
+    
+
+    // malloc for dynamic memory allocation
+    //  malloc will only take certain memory according to our demand
+    users = (User *)malloc(*num_users_pointer * sizeof(User)); // (User *) is typecast of malloc
+    if (users == NULL)
+    {
+        fclose(fp);
+        printf("There is an error with memory allocation.\n");
+        return 0;
+    }
+    size_t read_users = fread(users, sizeof(User), *num_users_pointer, fp); // size_t will give size of object in bytes
+
+    fclose(fp);
+    // now compare the number of users to the users read
+    if (read_users != *num_users_pointer)
+    {
+        free(users); // deallocating dynamically allocated memory
+        // malloc use garera allocate garekoxa ,
+        // jaba tesko kaam sakinxa we have to deallocate it otherwise it will result in memory leakage and memory becomes inaccessible
+
+        users = NULL;
+        // deallocate gareyapxi users lai NULL set garnu is good practise
+        // to avoid accidental access to the freed memory.
+        printf("Error in reading users from the file.\n");
+        return 0;
+    }
+
+    return users;
+}
+
+// function to delete account
+
+User delete_account_by_account_number(very_long_int account_number)
+{
+    /*  
+         user will definitely be returned , but if the account number provided by the user doesn't matches 
+         to any account number in the file it will show account number of returned user as 0. 
+     */
+    User deleted_user;
+    deleted_user.account_number=0;
+    User user;
+    FILE *fp_in, *fp_out;
+
+    fp_in = fopen(USER_DB_FILE, "rb");
+    if (fp_in == NULL)
+    {
+        printf("Couldn't open file in.\n");
+    }
+
+    fp_out = fopen("temp.dat", "ab"); // create a temp.dat file to store temporary data
+    //(except the accout_number and data are to be deleted.)
+    if (fp_out == NULL)
+    {
+        printf("Couldn't open file out.\n");
+    }
+    while (fread(&user, sizeof(User), 1, fp_in) == 1)
+    {
+        if (account_number != user.account_number)
+        {
+            fwrite(&user, sizeof(User), 1, fp_out);
+        }
+        else
+        {
+            deleted_user=user;
+        }
+    }
+    fclose(fp_in);
+    fclose(fp_out);
+    remove("USERS.dat");
+    rename("temp.dat", "USERS.dat");
+
+    
+    return deleted_user;
+}
