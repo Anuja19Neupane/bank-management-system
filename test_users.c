@@ -22,7 +22,7 @@ int main()
 
   save_user_to_database(new_user);
 
-  User db_user = get_users_by_account_number(123);
+  User db_user = get_users_by_phone_number(123);
   if (db_user.account_number != 0)
   {
     print_user(db_user);
