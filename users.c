@@ -47,7 +47,7 @@ void save_user_to_database(User user)
 
     FILE *fp;
 
-    fp = fopen(USER_DB_FILE, "a+");
+    fp = fopen(USER_DB_FILE, "a");
 
     if (fp == NULL)
     {
@@ -270,7 +270,7 @@ bool validate_user(very_long_int phone_number, const char *user_password)
 
     for (int i = 0; i < num_users; i++)
     {
-        if (all_users[i].phone_number==phone_number && strcmp(all_users[i].password, user_password) == 0)
+        if (all_users[i].phone_number == phone_number && strcmp(all_users[i].password, user_password) == 0)
         {
             // User with the given username and password found, return true
             return true;
@@ -279,4 +279,17 @@ bool validate_user(very_long_int phone_number, const char *user_password)
 
     // Username not found, return false
     return false;
+}
+
+// print all users
+User print_all_users()
+{
+    int num_users = 0;
+    User *all_users = get_all_users(&num_users);
+
+    for (int i = 0; i < num_users; i++)
+    {
+        print_user(all_users[i]);
+        printf("-------------------------\n");
+    }
 }
