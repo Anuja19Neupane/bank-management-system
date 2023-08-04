@@ -2,7 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 #include "utils.h"
+
 
 unsigned long long generate_random_10_digit_integer()
 {

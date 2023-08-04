@@ -6,11 +6,6 @@
 
 #include "transaction.h"
 
-void appendTransactionToFile(struct Transaction transaction);
-void readTransactionsFromFile();
-
-#endif
-
 #define MAX_ACCOUNT_LEN 200
 #define MAX_DATE_LEN 100
 #define MAX_DESC_LEN 100
@@ -21,6 +16,11 @@ struct Transaction {
     double amount;
     char description[MAX_DESC_LEN];
 };
+
+void appendTransactionToFile(struct Transaction transaction);
+void readTransactionsFromFile();
+
+#endif
 
 void createTransaction();
 void listTransactions();

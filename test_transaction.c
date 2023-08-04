@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "transaction.h"
+#include "utils.h"
 
 
 int main() {

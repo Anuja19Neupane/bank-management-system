@@ -5,6 +5,8 @@
 #include <unistd.h> // for sleep () function
 #include "users.h"
 #include "utils.h"
+#include "transaction.h"
+
 
 User current_user;
 char current_page[50];
@@ -129,9 +131,15 @@ void create_account_page()
 // profile_page function defination
 void profile_page()
 {
+
     char log_out;
+    system("clear");
     printf("Profile page\n");
     print_user(current_user);
+    
+    // to display transaction details in profile page
+    // readTransactionsFromFile();
+
     printf("Enter 'l' to logout.\n");
     scanf("%c",&log_out);
 
