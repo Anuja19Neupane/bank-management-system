@@ -1,6 +1,7 @@
 #pragma once
 typedef unsigned long long very_long_int; 
 
+// structure for date
 typedef struct Date
 {
    int year;

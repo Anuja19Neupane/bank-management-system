@@ -30,7 +30,7 @@ Date get_current_date()
 
     currentTime = time(NULL);
 
-    //  current time lai local time ma convert gareko
+    //  current time lai local time ma convert garekoo
     localTime = localtime(&currentTime);
 
     // Extract year, month, and day from the local time
