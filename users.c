@@ -226,7 +226,7 @@ User update_balance(very_long_int phone_number, float amount)
 
     fclose(fp);
 
-    // Check if the user with the given account number was found or not
+    //Check if the user with the given account number was found or not
     if (!found)
     {
         printf("User with account number %llu not found.\n", phone_number);
