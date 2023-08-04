@@ -191,7 +191,7 @@ User delete_account_by_account_number(very_long_int account_number)
 }
 
 // update balance
-User update_balance(very_long_int account_number, float amount)
+User update_balance(very_long_int phone_number, float amount)
 {
     FILE *fp;
     User user;
@@ -211,7 +211,7 @@ User update_balance(very_long_int account_number, float amount)
     // Search for the user with the given account number
     while (fread(&user, sizeof(User), 1, fp) == 1)
     {
-        if (user.account_number == account_number)
+        if (user.phone_number == phone_number)
         {
             found = 1;
             // Update the balance
@@ -229,7 +229,7 @@ User update_balance(very_long_int account_number, float amount)
     // Check if the user with the given account number was found or not
     if (!found)
     {
-        printf("User with account number %llu not found.\n", account_number);
+        printf("User with account number %llu not found.\n", phone_number);
         // Return an empty user to indicate failure
         User empty_user;
         empty_user.account_number = 0;

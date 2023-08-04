@@ -2,11 +2,13 @@
 #include <stdlib.h>
 #include "transaction.h"
 
-//transaction thapninxa
-void appendTransactionToFile(struct Transaction transaction) {
+// transaction thapninxa
+void appendTransactionToFile(struct Transaction transaction)
+{
     FILE *file = fopen("transactions.txt", "a");
-    if (file == NULL) {
-        printf("No data found.\n");
+    if (file == NULL)
+    {
+        printf("No transaction found.\n");
         return;
     }
 
@@ -15,17 +17,20 @@ void appendTransactionToFile(struct Transaction transaction) {
     fclose(file);
 }
 
-//transaction read hunxa
-void readTransactionsFromFile() {
+// transaction read hunxa
+void readTransactionsFromFile()
+{
     FILE *file = fopen("transactions.txt", "r");
-    if (file == NULL) {
-        printf("Error opening file.\n");
+    if (file == NULL)
+    {
+        printf("No transaction found.\n");
         return;
     }
 
     printf("Transactions:\n");
     struct Transaction currentTransaction;
-    while (fscanf(file, "%s %s %lf %[^\n]", currentTransaction.account, currentTransaction.date, &currentTransaction.amount, currentTransaction.description) != EOF) {
+    while (fscanf(file, "%s %s %lf %[^\n]", currentTransaction.account, currentTransaction.date, &currentTransaction.amount, currentTransaction.description) != EOF)
+    {
         printf("Account: %s | Date: %s | Amount: %.2f | Description: %s\n",
                currentTransaction.account, currentTransaction.date, currentTransaction.amount, currentTransaction.description);
     }
@@ -33,20 +38,23 @@ void readTransactionsFromFile() {
     fclose(file);
 }
 
-
 // Function definitions without printf
-void createTransaction() {
+void createTransaction()
+{
     // Implementation without printf
 }
 
-void listTransactions() {
+void listTransactions()
+{
     // Implementation without printf
 }
 
-void getTransactionsForAccount(char *account) {
+void getTransactionsForAccount(char *account)
+{
     // Implementation without printf
 }
 
-void getTransactionsFromDate(char *date) {
+void getTransactionsFromDate(char *date)
+{
     // Implementation without printf
 }
