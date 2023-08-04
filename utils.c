@@ -46,3 +46,15 @@ void print_date(Date dt)
 {
      printf("%d/%d/%d\n",dt.year,dt.month,dt.day);
 }
+
+
+void getInputString(char *input, int max_length) {
+    fgets(input, max_length, stdin);
+    input[strcspn(input, "\n")] = '\0'; // Remove the trailing newline
+}
+
+void getInputDouble(double *input) {
+    char buffer[100]; // buffer size milauxa
+    fgets(buffer, sizeof(buffer), stdin);
+    sscanf(buffer, "%lf", input);
+}
