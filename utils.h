@@ -18,3 +18,8 @@ Date get_current_date();
 
 // print date
 void print_date(Date dt);
+
+
+void getInputString(char *input, int max_length);
+void getInputDouble(double *input);
+
