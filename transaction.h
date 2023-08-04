@@ -1,6 +1,8 @@
 #ifndef TRANSACTION_H
 #define TRANSACTION_H
 
+// # pragma once
+
 #ifndef FILE_OPERATIONS_H
 #define FILE_OPERATIONS_H
 
