@@ -143,7 +143,7 @@ User *get_all_users(int *num_users_pointer)
         printf("Error in reading users from the file.\n");
         return 0;
     }
-
+    
     return users;
 }
 
@@ -313,7 +313,9 @@ bool validate_user(very_long_int phone_number, const char *user_password)
         }
     }
 
+    free(all_users);
     // Username not found, return false
+
     return false;
 }
 

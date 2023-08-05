@@ -8,6 +8,8 @@
 #define MAX_ACCOUNT_LEN 200
 #define MAX_DATE_LEN 100
 #define MAX_DESC_LEN 100
+#define MAX_TRANSACTIONS 100
+
 
 typedef struct Transaction
 {

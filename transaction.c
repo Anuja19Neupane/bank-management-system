@@ -4,7 +4,7 @@
 #include "transaction.h"
 #include "utils.h"
 
-char TRANSACTION_DB_FILE[50] = "./transactions.dat";
+char TRANSACTION_DB_FILE[50] = "./TRANSACTIONS.dat";
 
 // transaction thapninxa
 // void appendTransactionToFile(struct Transaction transaction)
@@ -22,7 +22,7 @@ char TRANSACTION_DB_FILE[50] = "./transactions.dat";
 // }
 
 // save transaction to db
-int save_transaction_to_database(Transaction user)
+int save_transaction_to_database(Transaction trans)
 {
 
     FILE *fp;
@@ -31,14 +31,16 @@ int save_transaction_to_database(Transaction user)
 
     if (fp == NULL)
     {
-        puts("Cannot open file.\n");
-        fclose(fp);
+        puts("Cannot open trasanction file.\n");
+        
         return 0;
     }
     else
     {
-        fwrite(&user, sizeof(Transaction), 1, fp); // 1st argument is structure ko address
+        
+        fwrite(&trans, sizeof(Transaction), 1, fp); // 1st argument is structure ko address
     }
+    fclose(fp);
     return 1;
 }
 
@@ -50,22 +52,24 @@ int get_transactions_by_acc_number(very_long_int acc_number, Transaction *transa
     fp = fopen(TRANSACTION_DB_FILE, "rb");
     if (fp == NULL)
     {
-        puts("Cannot open file.\n");
-        fclose(fp);
+        puts("Cannot read transaction file.\n");
+        
         return 0;
     }
     int i = 0;
     // read struct from file one by one until user with given account is found
     // if user with account number not found return NULL
     while (fread(&t, sizeof(Transaction), 1, fp) == 1)
+    
     // fread returns number of object it read
     // when 3rd argument is 1 , it should always return 1 cuz 3rd arguments specifies no of object we want
     // until it reach the EOF it returns 0
     {
+        
         if (t.account == acc_number)
             
         {
-            fclose(fp);
+            
             transactions[i] = t;
             i++;
         }
@@ -110,12 +114,22 @@ int createTransaction(float amount, char *remarks, very_long_int account_number,
 
 void print_transaction(Transaction t)
 {
-    printf("Amount: %f\n", t.amount);
+     if (t.amount >= 0) {
+        printf("Transaction Type: Deposit\n");
+        printf("Amount: %.2f\n", t.amount);
+    } else {
+        printf("Transaction Type: Withdrawal\n");
+        printf("Amount: %.2f\n", -t.amount); // Print the positive amount for withdrawal
+    }
     printf("Remarks: %s\n", t.remarks);
     printf("Date: ");
     print_date(t.date);
+
+    printf("Account number:%llu\n",t.account);
     printf("\n");
+
 }
+
 
 void print_transactions(Transaction *transactions, int size)
 {

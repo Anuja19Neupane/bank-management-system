@@ -179,7 +179,7 @@ void deposit_page()
     else
     {
         createTransaction(amount, remarks, updated_user.account_number, &tran);
-
+         current_user = updated_user;
         printf("Deposit successful. New balance: %.2f\n", updated_user.balance);
     }
 }
@@ -251,21 +251,32 @@ void withdraw_page()
 // profile_page function defination
 void profile_page()
 {
-
+    
     char log_out;
     Transaction transactions[100];
     system("clear");
     printf("Profile page\n");
+
+    printf("User Details:\n");
     print_user(current_user);
 
     // to display transaction details in profile page
 
-    int size = get_transactions_by_acc_number(current_user.account_number, transactions);
-    printf("%d", size);
-    print_transactions(transactions, size);
+    Transaction transactions_1[MAX_TRANSACTIONS]; // Assuming a maximum of 20 transactions
 
-    int wd_or_dp = printf("\n\n1. Withdraw \n2.Deposit\n");
+    int num_transactions = get_transactions_by_acc_number(current_user.account_number, transactions);
+    
+    printf("\nTransaction History:\n");
+    print_transactions(transactions, num_transactions);
+
+    // Print options for deposit or withdraw
+    printf("\n1. Withdraw\n");
+    printf("2. Deposit\n");
+
+    int wd_or_dp;
+    printf("Enter your choice: ");
     scanf("%d", &wd_or_dp);
+    while (getchar() != '\n');
 
     if (wd_or_dp == 1)
     {
