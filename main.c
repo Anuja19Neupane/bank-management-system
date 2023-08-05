@@ -17,6 +17,8 @@ void profile_page();
 void deposit_page();
 void withdraw_page();
 
+
+
 // main_page function defination
 void main_page()
 {
@@ -145,64 +147,144 @@ void deposit_page()
 
     very_long_int your_phone_number;
     float amount;
+    char remarks[100];
+    Transaction tran;
+
     system("clear");
     printf("Deposit your amount.\n");
     printf("Enter your phone number: \n");
     scanf("%llu", &your_phone_number);
-    while (getchar() != '\n');
-        
+    while (getchar() != '\n')
+        ;
+
     printf("Enter amount to be deposited: \n");
-    scanf("%f",&amount);
-    while (getchar() != '\n');
-        
+    scanf("%f", &amount);
+    while (getchar() != '\n')
+        ;
+
+    printf("Enter remarks: \n");
+    scanf("%s", remarks);
+    while (getchar() != '\n')
+        ;
+
     // function call to update the balance
     User updated_user = update_balance(your_phone_number, amount);
 
+
     // Check if the update was successful
-    if (updated_user.account_number == 0) {
+    if (updated_user.account_number == 0)
+    {
         printf("Error updating balance.\n");
-    } else {
-        printf("Balance updated successfully.\n");
-        
+    }
+    else
+    {
+        createTransaction(amount, remarks, updated_user.account_number, &tran);
+
+        printf("Deposit successful. New balance: %.2f\n", updated_user.balance);
     }
 }
 
+
 // withdraw_page
+void withdraw_page()
+{
+    very_long_int your_phone_number;
+    char your_password[50];
+    float amount;
+    char remarks[100];
+    Transaction tran;
+
+    system("clear");
+    printf("Withdraw amount.\n");
+
+    printf("Enter your phone number: \n");
+    scanf("%llu", &your_phone_number);
+    while (getchar() != '\n')
+        ;
+
+    printf("Enter your password: \n");
+    scanf("%s", your_password);
+    while (getchar() != '\n')
+        ;
+
+    // Check if the user with the given phone number and password exists
+    bool is_valid_user = validate_user(your_phone_number, your_password);
+    if (!is_valid_user)
+    {
+        printf("Invalid phone number or password.\n");
+        return;
+    }
+
+    printf("Enter amount to withdraw: \n");
+    scanf("%f", &amount);
+    while (getchar() != '\n')
+        ;
+
+    printf("Enter remarks: \n");
+    fgets(remarks, sizeof(remarks), stdin);
+    remarks[strcspn(remarks, "\n")] = '\0'; // Remove the newline character
+
+    // Check if the withdrawal amount is valid
+    float account_balance = get_account_balance(your_phone_number);
+    if (amount <= 0 || amount > account_balance) {
+        printf("Invalid withdrawal amount.\n");
+        return;
+    }
+
+    // Perform the withdrawal (update balance and create transaction)
+    User updated_user = update_balance(your_phone_number, -amount);
+
+    if (updated_user.account_number == 0)
+    {
+        printf("Error updating balance.\n");
+    }
+    else
+    {
+        // Create a transaction for the withdrawal
+        createTransaction(-amount, remarks, updated_user.account_number, &tran);
+
+        printf("Withdrawal successful. New balance: %.2f\n", updated_user.balance);
+    }
+}
+
 
 // profile_page function defination
 void profile_page()
 {
 
     char log_out;
+    Transaction transactions[100];
     system("clear");
     printf("Profile page\n");
     print_user(current_user);
 
     // to display transaction details in profile page
-    readTransactionsFromFile();
+
+    int size = get_transactions_by_acc_number(current_user.account_number, transactions);
+    printf("%d", size);
+    print_transactions(transactions, size);
 
     int wd_or_dp = printf("\n\n1. Withdraw \n2.Deposit\n");
-    scanf("%d",&wd_or_dp);
+    scanf("%d", &wd_or_dp);
 
-    
-
-    
     if (wd_or_dp == 1)
     {
-        
+
         strcpy(current_page, "withdraw_page");
+        withdraw_page();
     }
     else if (wd_or_dp == 2)
     {
-        
+
         strcpy(current_page, "deposit_page");
         deposit_page();
-        
-        
     }
 
     printf("Enter 'l' to logout.\n");
     scanf("%c", &log_out);
+    while (getchar() != '\n')
+        ;
+
 
     if (log_out == 'l')
     {

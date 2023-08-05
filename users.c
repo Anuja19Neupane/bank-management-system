@@ -7,6 +7,7 @@
 #include "users.h"
 #include "utils.h"
 
+
 User create_user(char *name, char *password, char *address, int birth_year, int birth_month, int birth_day, very_long_int phone_number)
 {
     User u1;
@@ -239,6 +240,41 @@ User update_balance(very_long_int phone_number, float amount)
     // Return the updated user
     return user;
 }
+
+
+
+
+// Function to retrieve the account balance for a given phone number
+float get_account_balance(very_long_int phone_number)
+{
+    FILE *fp;
+    User user;
+
+    // Open the database file in read mode
+    fp = fopen(USER_DB_FILE, "rb");
+    if (fp == NULL)
+    {
+        printf("Couldn't open the database file.\n");
+        // Return an invalid balance value to indicate failure
+        return -1.0f;
+    }
+
+    // Search for the user with the given phone number
+    while (fread(&user, sizeof(User), 1, fp) == 1)
+    {
+        if (user.phone_number == phone_number)
+        {
+            // Close the file and return the account balance
+            fclose(fp);
+            return user.balance;
+        }
+    }
+
+    // Close the file (user not found) and return an invalid balance value to indicate failure
+    fclose(fp);
+    return -1.0f;
+}
+
 
 // sorting user by alphabetical order in username
 void sort_users_by_username(User *users, int num_users)

@@ -44,6 +44,9 @@ User delete_account_by_account_number(very_long_int account_number);
 //update balance 
 User update_balance(very_long_int phone_number, float amount);
 
+
+float get_account_balance(very_long_int phone_number);
+
 // sort users by aphabetical order of their username
 void sort_users_by_username(User *users, int num_users);
 
