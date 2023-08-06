@@ -8,7 +8,6 @@
 #include "utils.h"
 #include "transaction.h"
 
-
 User current_user;
 char current_page[50];
 int choice;
@@ -18,7 +17,6 @@ void create_account_page();
 void profile_page();
 void deposit_page();
 void withdraw_page();
-
 
 int main()
 {
@@ -72,7 +70,6 @@ int main()
             show_text("Deposit Page\n", 0.45, 0.15);
             deposit_page();
         }
-        
     }
     return 0;
 }
@@ -87,7 +84,7 @@ void main_page()
     printf(ANSI_BOLD ANSI_UNDERLINE ANSI_FG_WHITE);
     show_text("2. CREATE ACCOUNT\n", 0.4, 0.3);
     // printf(ANSI_RESET);
-    show_text("Enter your choice: ", 0.35, 0.5);
+    show_text("Enter your choice:", 0.35, 0.5);
     scanf("%d", &choice);
     system("clear");
 
@@ -304,9 +301,9 @@ void withdraw_page()
         system("clear");
         return;
     }
-
+    printf("before update balance\n");
     // Perform the withdrawal (update balance and create transaction)
-    User updated_user = update_balance(phone_number, -amount);
+    User updated_user = update_balance(phone_number, -1 * amount);
 
     if (updated_user.account_number == 0)
     {
@@ -315,10 +312,11 @@ void withdraw_page()
     else
     {
         // Create a transaction for the withdrawal
-        createTransaction(-amount, remarks, updated_user.account_number, &tran);
+        createTransaction(-1 * amount, remarks, updated_user.account_number, &tran);
 
         printf("Withdrawal successful. New balance: %.2f . Press any key to continue....\n", updated_user.balance);
         getchar();
+        current_user = updated_user;
         strcpy(current_page, "profile_page");
         system("clear");
     }
@@ -374,13 +372,10 @@ void profile_page()
         system("clear");
     }
 
-     else if (wd_or_dp == 3)
+    else if (wd_or_dp == 3)
     {
 
         strcpy(current_page, "login_page");
         system("clear");
     }
-
 }
-
-
