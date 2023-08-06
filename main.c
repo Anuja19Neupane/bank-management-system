@@ -8,63 +8,6 @@
 #include "utils.h"
 #include "transaction.h"
 
-void printArbritaryPosition(char *text, float horizantal_fraction)
-
-{
-
-    // find out terminl's width
-
-    int terminalWidth = get_terminal_width();
-    int totalWidth = terminalWidth > 0 ? terminalWidth : 150; // Set a default value
-
-    int padding = (int)(totalWidth * horizantal_fraction);
-    for (int i = 0; i < padding; i++)
-    {
-        printf(" ");
-    }
-
-    // Print the header text
-    printf("%s", text);
-
-    for (int i = padding + strlen(text); i < terminalWidth; i++)
-    {
-        printf(" ");
-    }
-}
-
-void printTextAtCenter(char *text)
-{
-
-    // find out terminl's width
-    struct winsize w;
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    int terminalWidth = w.ws_col;
-    int totalWidth = terminalWidth > 0 ? terminalWidth : 150; // Set a default value
-
-    // Calculate padding for horizontal centering
-    int padding = (totalWidth - strlen(text)) / 2;
-
-    // Print the header with proper formatting
-
-    // Print left-side padding
-
-    // printf("totalWidth: %d, padding: %d, strlen(text): %d\n", totalWidth, padding, strlen(text));
-    // getchar();
-
-    for (int i = 0; i < padding; i++)
-    {
-        printf(" ");
-    }
-
-    // Print the header text
-    printf("%s", text);
-
-    for (int i = padding + strlen(text); i < terminalWidth; i++)
-    {
-        printf(" ");
-    }
-    printf("\n");
-}
 
 User current_user;
 char current_page[50];
@@ -75,6 +18,64 @@ void create_account_page();
 void profile_page();
 void deposit_page();
 void withdraw_page();
+
+
+int main()
+{
+
+    strcpy(current_page, "main_page");
+    system("clear");
+    while (true)
+    {
+        printf(ANSI_BOLD ANSI_BG_BLUE ANSI_FG_WHITE);
+        printTextAtCenter("");
+        printTextAtCenter("Bank Management System");
+        printTextAtCenter("");
+        printf(ANSI_RESET "\n");
+
+        if (strcmp(current_page, "main_page") == 0)
+        {
+            printf(ANSI_BOLD ANSI_UNDERLINE ANSI_BG_GREEN ANSI_FG_WHITE);
+            show_text("Home Page\n", 0.45, 0.15);
+            main_page(current_page); // function call
+        }
+
+        else if (strcmp(current_page, "create_account_page") == 0)
+        {
+            printf(ANSI_BOLD ANSI_UNDERLINE ANSI_BG_GREEN ANSI_FG_WHITE);
+            show_text("Sign Up Page\n", 0.45, 0.15);
+            create_account_page();
+        }
+
+        else if (strcmp(current_page, "login_page") == 0)
+        {
+            printf(ANSI_BOLD ANSI_UNDERLINE ANSI_BG_GREEN ANSI_FG_WHITE);
+            show_text("Login Page\n", 0.45, 0.15);
+            login_page();
+        }
+
+        else if (strcmp(current_page, "profile_page") == 0)
+        {
+            profile_page();
+        }
+
+        else if (strcmp(current_page, "withdraw_page") == 0)
+        {
+            printf(ANSI_BOLD ANSI_UNDERLINE ANSI_BG_GREEN ANSI_FG_WHITE);
+            show_text("Withdraw Page\n", 0.45, 0.15);
+            withdraw_page();
+        }
+
+        else if (strcmp(current_page, "deposit_page") == 0)
+        {
+            printf(ANSI_BOLD ANSI_UNDERLINE ANSI_BG_GREEN ANSI_FG_WHITE);
+            show_text("Deposit Page\n", 0.45, 0.15);
+            deposit_page();
+        }
+        
+    }
+    return 0;
+}
 
 // main_page function defination
 void main_page()
@@ -381,57 +382,5 @@ void profile_page()
     }
 
 }
-int main()
-{
 
-    strcpy(current_page, "main_page");
-    system("clear");
-    while (true)
-    {
-        printf(ANSI_BOLD ANSI_BG_BLUE ANSI_FG_WHITE);
-        printTextAtCenter("");
-        printTextAtCenter("Bank Management System");
-        printTextAtCenter("");
-        printf(ANSI_RESET "\n");
 
-        if (strcmp(current_page, "main_page") == 0)
-        {
-            printf(ANSI_BOLD ANSI_UNDERLINE ANSI_BG_GREEN ANSI_FG_WHITE);
-            show_text("Home Page\n", 0.45, 0.15);
-            main_page(current_page); // function call
-        }
-
-        else if (strcmp(current_page, "create_account_page") == 0)
-        {
-            printf(ANSI_BOLD ANSI_UNDERLINE ANSI_BG_GREEN ANSI_FG_WHITE);
-            show_text("Sign Up Page\n", 0.45, 0.15);
-            create_account_page();
-        }
-
-        else if (strcmp(current_page, "login_page") == 0)
-        {
-            printf(ANSI_BOLD ANSI_UNDERLINE ANSI_BG_GREEN ANSI_FG_WHITE);
-            show_text("Login Page\n", 0.45, 0.15);
-            login_page();
-        }
-
-        else if (strcmp(current_page, "profile_page") == 0)
-        {
-            profile_page();
-        }
-
-        else if (strcmp(current_page, "withdraw_page") == 0)
-        {
-            printf(ANSI_BOLD ANSI_UNDERLINE ANSI_BG_GREEN ANSI_FG_WHITE);
-            show_text("Withdraw Page\n", 0.45, 0.15);
-            withdraw_page();
-        }
-
-        else if (strcmp(current_page, "deposit_page") == 0)
-        {
-            printf(ANSI_BOLD ANSI_UNDERLINE ANSI_BG_GREEN ANSI_FG_WHITE);
-            show_text("Deposit Page\n", 0.45, 0.15);
-            deposit_page();
-        }
-    }
-}

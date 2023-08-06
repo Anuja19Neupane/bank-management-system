@@ -98,3 +98,60 @@ void show_text(char *text, float fraction_x, float fraction_y)
 
 }
 
+void printArbritaryPosition(char *text, float horizantal_fraction)
+
+{
+
+    // find out terminl's width
+
+    int terminalWidth = get_terminal_width();
+    int totalWidth = terminalWidth > 0 ? terminalWidth : 150; // Set a default value
+
+    int padding = (int)(totalWidth * horizantal_fraction);
+    for (int i = 0; i < padding; i++)
+    {
+        printf(" ");
+    }
+
+    // Print the header text
+    printf("%s", text);
+
+    for (int i = padding + strlen(text); i < terminalWidth; i++)
+    {
+        printf(" ");
+    }
+}
+
+void printTextAtCenter(char *text)
+{
+
+    // find out terminl's width
+    struct winsize w;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+    int terminalWidth = w.ws_col;
+    int totalWidth = terminalWidth > 0 ? terminalWidth : 150; // Set a default value
+
+    // Calculate padding for horizontal centering
+    int padding = (totalWidth - strlen(text)) / 2;
+
+    // Print the header with proper formatting
+
+    // Print left-side padding
+
+    // printf("totalWidth: %d, padding: %d, strlen(text): %d\n", totalWidth, padding, strlen(text));
+    // getchar();
+
+    for (int i = 0; i < padding; i++)
+    {
+        printf(" ");
+    }
+
+    // Print the header text
+    printf("%s", text);
+
+    for (int i = padding + strlen(text); i < terminalWidth; i++)
+    {
+        printf(" ");
+    }
+    printf("\n");
+}

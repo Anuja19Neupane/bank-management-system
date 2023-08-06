@@ -55,3 +55,7 @@ int get_terminal_width();
 int get_terminal_height();
 
 void show_text(char *text, float fraction_x, float fraction_y);
+
+void printArbritaryPosition(char *text, float horizantal_fraction);
+
+void printTextAtCenter(char *text);
