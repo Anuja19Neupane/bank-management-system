@@ -30,7 +30,6 @@ void printArbritaryPosition(char *text, float horizantal_fraction)
     {
         printf(" ");
     }
-   
 }
 
 void printTextAtCenter(char *text)
@@ -82,12 +81,12 @@ void main_page()
 {
     // system("clear");
     // printf(ANSI_BG_GREEN ANSI_FG_WHITE ANSI_BOLD);
-     printf(ANSI_BOLD ANSI_UNDERLINE  ANSI_FG_WHITE);
+    printf(ANSI_BOLD ANSI_UNDERLINE ANSI_FG_WHITE);
     show_text("1. LOGIN\n", 0.4, 0.2);
-     printf(ANSI_BOLD ANSI_UNDERLINE  ANSI_FG_WHITE);
+    printf(ANSI_BOLD ANSI_UNDERLINE ANSI_FG_WHITE);
     show_text("2. CREATE ACCOUNT\n", 0.4, 0.3);
     // printf(ANSI_RESET);
-    show_text("Enter your choice: ", 0.35,0.5);
+    show_text("Enter your choice: ", 0.35, 0.5);
     scanf("%d", &choice);
     system("clear");
 
@@ -107,23 +106,27 @@ void main_page()
 void login_page()
 {
 
-    very_long_int your_phone_number;
-    char your_password[50];
+    very_long_int phone_number;
+    char password[50];
 
-    printf("Login page\n");
-    printf("Enter your phone number:\n");
-    scanf("%llu", &your_phone_number);
-    printf("Enter your password:\n");
-    scanf("%s", your_password);
+    show_text("Enter your phone number: ", 0.4, 0.2);
+
+    scanf("%llu", &phone_number);
     while (getchar() != '\n')
         ;
 
-    bool is_valid = validate_user(your_phone_number, your_password);
+    show_text("Enter your password: ", 0.4, 0.25);
+
+    scanf("%s", password);
+    while (getchar() != '\n')
+        ;
+
+    bool is_valid = validate_user(phone_number, password);
     if (is_valid)
     {
         printf("Login sucessful.\n");
 
-        current_user = get_users_by_phone_number(your_phone_number);
+        current_user = get_users_by_phone_number(phone_number);
 
         strcpy(current_page, "profile_page");
         // system("clear");
@@ -139,6 +142,7 @@ void login_page()
 // create_account_page function defination
 void create_account_page()
 {
+    float vertical_line_gap = 0.05;
     char name[50];
     very_long_int phone_number;
     char address[50];
@@ -148,58 +152,59 @@ void create_account_page()
     char password[50];
     User user;
 
-   
-
     // printf("Create user page\n");
 
-    printf("Enter your full name: \n");
+    show_text("Enter your name: ", 0.4, 0.2);
     scanf("%s", name);
+
     while (getchar() != '\n')
         ;
-    // Clear the input buffer after reading the string
 
-    printf("Enter your phone number: \n");
+    // Clear the input buffer after reading the string
+    show_text("Enter your phone number: ", 0.4, 0.2 + vertical_line_gap);
+
     scanf("%llu", &phone_number);
     while (getchar() != '\n')
         ;
     // Clear the input buffer after reading the number
+    show_text("Enter your adress: ", 0.4, 0.2 + 2 * vertical_line_gap);
 
-    printf("Enter your address: \n");
     scanf("%s", address);
     while (getchar() != '\n')
         ;
     // Clear the input buffer after reading the string
+    show_text("Enter your birth year: ", 0.4, 0.2 + 3 * vertical_line_gap);
 
-    printf("Enter your birth year: \n");
     scanf("%d", &birth_year);
     while (getchar() != '\n')
         ;
     // Clear the input buffer after reading the number
+    show_text("Enter your birth month: ", 0.4, 0.2 + 4 * vertical_line_gap);
 
-    printf("Enter your birth month: \n");
     scanf("%d", &birth_month);
     while (getchar() != '\n')
         ;
     // Clear the input buffer after reading the number
+    show_text("Enter your birth day: ", 0.4, 0.2 + 5 * vertical_line_gap);
 
-    printf("Enter your birth day: \n");
     scanf("%d", &birth_day);
     while (getchar() != '\n')
         ;
     // Clear the input buffer after reading the number
+    show_text("Enter your password: ", 0.4, 0.2 + 6 * vertical_line_gap);
 
-    printf("Enter your password: \n");
     scanf("%s", password);
     while (getchar() != '\n')
         ;
     // Clear the input buffer after reading the string
-    printf("User account sucessfully created.\n ");
-    sleep(2);
 
+    show_text("User account sucessfully created.\n", 0.4, 0.2 + 7 * vertical_line_gap);
+    // fflush(stdout);
+    sleep(2);
+    system("clear");
     // function call
     user = create_user(name, password, address, birth_year, birth_month, birth_day, phone_number);
     save_user_to_database(user);
-    system("clear");
     strcpy(current_page, "login_page");
 }
 
@@ -207,30 +212,28 @@ void create_account_page()
 void deposit_page()
 {
 
-    very_long_int your_phone_number;
+    very_long_int phone_number;
     float amount;
     char remarks[100];
     Transaction tran;
 
-    system("clear");
-    printf("Deposit your amount.\n");
-    printf("Enter your phone number: \n");
-    scanf("%llu", &your_phone_number);
+    show_text("Enter your phone number: ", 0.4, 0.2);
+
+    scanf("%llu", &phone_number);
     while (getchar() != '\n')
         ;
-
-    printf("Enter amount to be deposited: \n");
+    show_text("Enter amount to be deposited: ", 0.4, 0.25);
     scanf("%f", &amount);
     while (getchar() != '\n')
         ;
 
-    printf("Enter remarks: \n");
+    show_text("Enter remarks: ", 0.4, 0.30);
     scanf("%s", remarks);
     while (getchar() != '\n')
         ;
 
     // function call to update the balance
-    User updated_user = update_balance(your_phone_number, amount);
+    User updated_user = update_balance(phone_number, amount);
 
     // Check if the update was successful
     if (updated_user.account_number == 0)
@@ -241,58 +244,68 @@ void deposit_page()
     {
         createTransaction(amount, remarks, updated_user.account_number, &tran);
         current_user = updated_user;
-        printf("Deposit successful. New balance: %.2f\n", updated_user.balance);
+        printf("Deposit successful. New balance: %.2f.  Press any key to continue....\n", updated_user.balance);
+
+        getchar();
+        strcpy(current_page, "profile_page");
+        system("clear");
     }
 }
 
 // withdraw_page
 void withdraw_page()
 {
-    very_long_int your_phone_number;
-    char your_password[50];
+    very_long_int phone_number;
+    char password[50];
     float amount;
     char remarks[100];
     Transaction tran;
 
-    printf("Withdraw amount.\n");
+    show_text("Enter your phone number: ", 0.4, 0.2);
 
-    printf("Enter your phone number: \n");
-    scanf("%llu", &your_phone_number);
+    scanf("%llu", &phone_number);
     while (getchar() != '\n')
         ;
 
-    printf("Enter your password: \n");
-    scanf("%s", your_password);
+    show_text("Enter your password: ", 0.4, 0.25);
+
+    scanf("%s", password);
     while (getchar() != '\n')
         ;
+    ;
 
     // Check if the user with the given phone number and password exists
-    bool is_valid_user = validate_user(your_phone_number, your_password);
+    bool is_valid_user = validate_user(phone_number, password);
     if (!is_valid_user)
     {
         printf("Invalid phone number or password.\n");
         return;
     }
 
-    printf("Enter amount to withdraw: \n");
+    show_text("Withdraw amount: ", 0.4, 0.30);
+
     scanf("%f", &amount);
     while (getchar() != '\n')
         ;
 
-    printf("Enter remarks: \n");
-    fgets(remarks, sizeof(remarks), stdin);
-    remarks[strcspn(remarks, "\n")] = '\0'; // Remove the newline character
+    show_text("Enter remarks: ", 0.4, 0.4);
+
+    scanf("%s", remarks);
+    while (getchar() != '\n')
+        ;
 
     // Check if the withdrawal amount is valid
-    float account_balance = get_account_balance(your_phone_number);
+    float account_balance = get_account_balance(phone_number);
     if (amount <= 0 || amount > account_balance)
     {
         printf("Invalid withdrawal amount.\n");
+        getchar();
+        system("clear");
         return;
     }
 
     // Perform the withdrawal (update balance and create transaction)
-    User updated_user = update_balance(your_phone_number, -amount);
+    User updated_user = update_balance(phone_number, -amount);
 
     if (updated_user.account_number == 0)
     {
@@ -303,7 +316,10 @@ void withdraw_page()
         // Create a transaction for the withdrawal
         createTransaction(-amount, remarks, updated_user.account_number, &tran);
 
-        printf("Withdrawal successful. New balance: %.2f\n", updated_user.balance);
+        printf("Withdrawal successful. New balance: %.2f . Press any key to continue....\n", updated_user.balance);
+        getchar();
+        strcpy(current_page, "profile_page");
+        system("clear");
     }
     system("clear");
 }
@@ -331,9 +347,9 @@ void profile_page()
     // Print options for deposit or withdraw
     printf(ANSI_RESET);
     printf("\n");
-    printf(ANSI_BOLD ANSI_UNDERLINE  ANSI_FG_WHITE);
+    printf(ANSI_BOLD ANSI_UNDERLINE ANSI_FG_WHITE);
     show_text("1. Withdraw\n", 0.25, 0.75);
-    printf(ANSI_BOLD ANSI_UNDERLINE  ANSI_FG_WHITE);
+    printf(ANSI_BOLD ANSI_UNDERLINE ANSI_FG_WHITE);
     show_text("2. Deposit\n", 0.5, 0.75);
 
     int wd_or_dp;
@@ -346,19 +362,14 @@ void profile_page()
     {
 
         strcpy(current_page, "withdraw_page");
-        withdraw_page();
+        system("clear");
     }
     else if (wd_or_dp == 2)
     {
 
         strcpy(current_page, "deposit_page");
-        deposit_page();
+        system("clear");
     }
-
-    printf("Transactions successful. Press any key to continue ... \n");
-    getchar();
-    strcpy(current_page, "profile_page");
-    system("clear");
 }
 int main()
 {
@@ -375,22 +386,42 @@ int main()
 
         if (strcmp(current_page, "main_page") == 0)
         {
+            printf(ANSI_BOLD ANSI_UNDERLINE ANSI_BG_GREEN ANSI_FG_WHITE);
+            show_text("Home Page\n", 0.45, 0.15);
             main_page(current_page); // function call
         }
 
         else if (strcmp(current_page, "create_account_page") == 0)
         {
+            printf(ANSI_BOLD ANSI_UNDERLINE ANSI_BG_GREEN ANSI_FG_WHITE);
+            show_text("Sign Up Page\n", 0.45, 0.15);
             create_account_page();
         }
 
         else if (strcmp(current_page, "login_page") == 0)
         {
+            printf(ANSI_BOLD ANSI_UNDERLINE ANSI_BG_GREEN ANSI_FG_WHITE);
+            show_text("Login Page\n", 0.45, 0.15);
             login_page();
         }
 
         else if (strcmp(current_page, "profile_page") == 0)
         {
             profile_page();
+        }
+
+        else if (strcmp(current_page, "withdraw_page") == 0)
+        {
+            printf(ANSI_BOLD ANSI_UNDERLINE ANSI_BG_GREEN ANSI_FG_WHITE);
+            show_text("Withdraw Page\n", 0.45, 0.15);
+            withdraw_page();
+        }
+
+        else if (strcmp(current_page, "deposit_page") == 0)
+        {
+            printf(ANSI_BOLD ANSI_UNDERLINE ANSI_BG_GREEN ANSI_FG_WHITE);
+            show_text("Deposit Page\n", 0.45, 0.15);
+            deposit_page();
         }
     }
 }
