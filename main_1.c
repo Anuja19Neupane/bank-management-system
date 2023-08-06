@@ -2,32 +2,19 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
-#include <unistd.h> // for sleep () function
+#include <unistd.h>    // for sleep () function
+#include <sys/ioctl.h> // for terminal width
 #include "users.h"
 #include "utils.h"
 #include "transaction.h"
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-
-// ANSI color codes
-#define ANSI_RESET "\x1b[0m"
-#define ANSI_BOLD "\x1b[1m"
-#define ANSI_UNDERLINE "\x1b[4m"
-#define ANSI_BG_BLUE "\x1b[44m"
-#define ANSI_BG_GREEN "\x1b[42m"
-#define ANSI_FG_WHITE "\x1b[97m"
-#define ANSI_BG_LIGHT_GRAY "\x1b[100m"
 
 void printArbritaryPosition(char *text, float horizantal_fraction)
 
 {
 
     // find out terminl's width
-    struct winsize w;
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    int terminalWidth = w.ws_col;
+
+    int terminalWidth = get_terminal_width();
     int totalWidth = terminalWidth > 0 ? terminalWidth : 150; // Set a default value
 
     int padding = (int)(totalWidth * horizantal_fraction);
@@ -43,7 +30,7 @@ void printArbritaryPosition(char *text, float horizantal_fraction)
     {
         printf(" ");
     }
-    printf("\n");
+   
 }
 
 void printTextAtCenter(char *text)
@@ -94,14 +81,15 @@ void withdraw_page();
 void main_page()
 {
     // system("clear");
-    printf(ANSI_BG_GREEN ANSI_FG_WHITE ANSI_BOLD);
-    printArbritaryPosition("1. Log in", 0.5);
-    
-    printArbritaryPosition("2. Sign in", 0.5);
-    printf(ANSI_RESET);
-    printArbritaryPosition("Enter your choice: ", 0.5);
+    // printf(ANSI_BG_GREEN ANSI_FG_WHITE ANSI_BOLD);
+     printf(ANSI_BOLD ANSI_UNDERLINE  ANSI_FG_WHITE);
+    show_text("1. LOGIN\n", 0.4, 0.2);
+     printf(ANSI_BOLD ANSI_UNDERLINE  ANSI_FG_WHITE);
+    show_text("2. CREATE ACCOUNT\n", 0.4, 0.3);
+    // printf(ANSI_RESET);
+    show_text("Enter your choice: ", 0.35,0.5);
     scanf("%d", &choice);
-    // printf("choice:%d\n",choice);
+    system("clear");
 
     if (choice == 1)
     {
@@ -160,9 +148,9 @@ void create_account_page()
     char password[50];
     User user;
 
-    system("clear");
+   
 
-    printf("Create user page\n");
+    // printf("Create user page\n");
 
     printf("Enter your full name: \n");
     scanf("%s", name);
@@ -266,7 +254,6 @@ void withdraw_page()
     char remarks[100];
     Transaction tran;
 
-    
     printf("Withdraw amount.\n");
 
     printf("Enter your phone number: \n");
@@ -327,11 +314,10 @@ void profile_page()
 
     char log_out;
     Transaction transactions[100];
-    
-    printf("Profile page\n");
-
-    printf("User Details:\n");
-    print_user(current_user);
+    printf(ANSI_BOLD ANSI_UNDERLINE ANSI_BG_GREEN ANSI_FG_WHITE);
+    printf("User Details:\n\n");
+    printf(ANSI_RESET);
+    show_user(current_user);
 
     // to display transaction details in profile page
 
@@ -339,19 +325,23 @@ void profile_page()
 
     int num_transactions = get_transactions_by_acc_number(current_user.account_number, transactions);
 
-    printf("\nTransaction History:\n");
-    print_transactions(transactions, num_transactions);
+    // printf("\nTransaction History:\n");
+    show_transactions(transactions, num_transactions, 5);
 
     // Print options for deposit or withdraw
-    printf("\n1. Withdraw\n");
-    printf("2. Deposit\n");
+    printf(ANSI_RESET);
+    printf("\n");
+    printf(ANSI_BOLD ANSI_UNDERLINE  ANSI_FG_WHITE);
+    show_text("1. Withdraw\n", 0.25, 0.75);
+    printf(ANSI_BOLD ANSI_UNDERLINE  ANSI_FG_WHITE);
+    show_text("2. Deposit\n", 0.5, 0.75);
 
     int wd_or_dp;
-    printf("Enter your choice: ");
+    show_text("Enter your choice:", 0.25, 0.8);
     scanf("%d", &wd_or_dp);
     while (getchar() != '\n')
         ;
-    system("clear");
+
     if (wd_or_dp == 1)
     {
 
@@ -364,25 +354,17 @@ void profile_page()
         strcpy(current_page, "deposit_page");
         deposit_page();
     }
-    
 
-    printf("Enter 'l' to logout.\n");
-    scanf("%c", &log_out);
-    while (getchar() != '\n')
-        ;
-
-    if (log_out == 'l')
-    {
-        strcpy(current_page, "login_page");
-    }
+    printf("Transactions successful. Press any key to continue ... \n");
+    getchar();
+    strcpy(current_page, "profile_page");
     system("clear");
 }
-
 int main()
 {
 
     strcpy(current_page, "main_page");
-
+    system("clear");
     while (true)
     {
         printf(ANSI_BOLD ANSI_BG_BLUE ANSI_FG_WHITE);

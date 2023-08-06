@@ -5,7 +5,6 @@
 #include <string.h>
 #include "utils.h"
 
-
 unsigned long long generate_random_10_digit_integer()
 {
     unsigned long long result = 0;
@@ -42,21 +41,60 @@ Date get_current_date()
     return d1;
 }
 
-
-//print date 
+// print date
 void print_date(Date dt)
 {
-     printf("%d/%d/%d\n",dt.year,dt.month,dt.day);
+    printf("%d/%d/%d\n", dt.year, dt.month, dt.day);
+}
+void get_date(Date dt, char *date_string)
+{
+    sprintf(date_string, "%d/%d/%d ", dt.year, dt.month, dt.day);
 }
 
-
-void getInputString(char *input, int max_length) {
+void getInputString(char *input, int max_length)
+{
     fgets(input, max_length, stdin);
     input[strcspn(input, "\n")] = '\0'; // Remove the trailing newline
 }
 
-void getInputDouble(double *input) {
+void getInputDouble(double *input)
+{
     char buffer[100]; // buffer size milauxa
     fgets(buffer, sizeof(buffer), stdin);
     sscanf(buffer, "%lf", input);
 }
+
+int get_terminal_width()
+{
+    struct winsize w;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+    int terminalWidth = w.ws_col;
+
+    return terminalWidth;
+}
+
+int get_terminal_height()
+{
+    struct winsize w;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+    int terminal_height = w.ws_row;
+
+    return terminal_height;
+}
+
+void show_text(char *text, float fraction_x, float fraction_y)
+{
+    int terminal_width = get_terminal_width();
+    int terminal_height = get_terminal_height();
+
+    int xpos = (int)(fraction_x * terminal_width);
+    int ypos = (int)(fraction_y * terminal_height);
+
+   
+    printf("\033[%d;%dH", ypos, xpos);
+
+    printf("%s", text);
+    printf(ANSI_RESET);
+
+}
+

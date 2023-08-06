@@ -53,3 +53,5 @@ void sort_users_by_username(User *users, int num_users);
 //check validity of user
 bool validate_user(very_long_int phone_number, const char *user_password);
 
+void show_user(User user) ;
+

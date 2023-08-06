@@ -36,4 +36,8 @@ void print_transactions(Transaction* transactions, int size);
 
 int get_transactions_by_acc_number(very_long_int acc_number, Transaction *transactions);
 
+void show_transaction(Transaction t,int row_no, int vertical_offset);
+
+void show_transactions(Transaction *transactions, int size, int vertical_offset);
+
 #endif

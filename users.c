@@ -7,7 +7,6 @@
 #include "users.h"
 #include "utils.h"
 
-
 User create_user(char *name, char *password, char *address, int birth_year, int birth_month, int birth_day, very_long_int phone_number)
 {
     User u1;
@@ -35,10 +34,29 @@ void print_user(User user)
     printf("Balance: %.2f\n", user.balance);
     printf("Birth date: ");
     print_date(user.birth_date);
-    printf("Created at: ");
+    // printf("\n\n");
+    printf("\nCreated at: ");
     print_date(user.created_at);
 
     printf("Phone Number: %lld\n", user.phone_number);
+    printf("\n\n");
+}
+
+void show_user(User user)
+{
+    char birth_date_string[15];
+    char created_at_string[15];
+    get_date(user.birth_date,birth_date_string);
+    get_date(user.created_at,created_at_string);
+    printf(ANSI_BOLD ANSI_BG_YELLOW ANSI_FG_WHITE "%-*s" ANSI_RESET ": %s\n\n", 15, "Username", user.username);
+    printf(ANSI_BOLD ANSI_BG_YELLOW ANSI_FG_WHITE "%-*s" ANSI_RESET ": %lld\n\n", 15, "Phone Number", user.phone_number);
+    printf(ANSI_BOLD ANSI_BG_YELLOW ANSI_FG_WHITE "%-*s" ANSI_RESET ": %s\n\n", 15, "Address", user.address);
+    printf(ANSI_BOLD ANSI_BG_YELLOW ANSI_FG_WHITE "%-*s" ANSI_RESET ": %llu\n\n", 15, "Account Number", user.account_number);
+    printf(ANSI_BOLD ANSI_BG_YELLOW ANSI_FG_WHITE "%-*s" ANSI_RESET ": %.2f\n\n", 15, "Balance", user.balance);
+    printf(ANSI_BOLD ANSI_BG_YELLOW ANSI_FG_WHITE "%-*s" ANSI_RESET ": %s\n\n", 15, "Birth date",birth_date_string);
+    printf(ANSI_BOLD ANSI_BG_YELLOW ANSI_FG_WHITE "%-*s" ANSI_RESET ": %s\n\n", 15, "Created at",created_at_string);
+   
+ 
     printf("\n\n");
 }
 
@@ -143,7 +161,7 @@ User *get_all_users(int *num_users_pointer)
         printf("Error in reading users from the file.\n");
         return 0;
     }
-    
+
     return users;
 }
 
@@ -227,7 +245,7 @@ User update_balance(very_long_int phone_number, float amount)
 
     fclose(fp);
 
-    //Check if the user with the given account number was found or not
+    // Check if the user with the given account number was found or not
     if (!found)
     {
         printf("User with account number %llu not found.\n", phone_number);
@@ -240,9 +258,6 @@ User update_balance(very_long_int phone_number, float amount)
     // Return the updated user
     return user;
 }
-
-
-
 
 // Function to retrieve the account balance for a given phone number
 float get_account_balance(very_long_int phone_number)
@@ -274,7 +289,6 @@ float get_account_balance(very_long_int phone_number)
     fclose(fp);
     return -1.0f;
 }
-
 
 // sorting user by alphabetical order in username
 void sort_users_by_username(User *users, int num_users)
