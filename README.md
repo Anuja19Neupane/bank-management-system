@@ -6,7 +6,7 @@
 * Sign Up feature
 * Profile feature
   * This feature contains user details and transactions history.
-* Withdraw pafeaturege
+* Withdraw feature
 * Deposit feature
 * Log out your account
 
