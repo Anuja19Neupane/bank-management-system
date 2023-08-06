@@ -351,6 +351,8 @@ void profile_page()
     show_text("1. Withdraw\n", 0.25, 0.75);
     printf(ANSI_BOLD ANSI_UNDERLINE ANSI_FG_WHITE);
     show_text("2. Deposit\n", 0.5, 0.75);
+    printf(ANSI_BOLD ANSI_UNDERLINE ANSI_FG_WHITE);
+    show_text("3. Logout\n", 0.75, 0.75);
 
     int wd_or_dp;
     show_text("Enter your choice:", 0.25, 0.8);
@@ -370,6 +372,14 @@ void profile_page()
         strcpy(current_page, "deposit_page");
         system("clear");
     }
+
+     else if (wd_or_dp == 3)
+    {
+
+        strcpy(current_page, "login_page");
+        system("clear");
+    }
+
 }
 int main()
 {
