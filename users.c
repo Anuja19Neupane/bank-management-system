@@ -235,6 +235,7 @@ User update_balance(very_long_int phone_number, float amount)
             found = 1;
             // Update the balance
             user.balance += amount;
+            printf("new balance: %f",user.balance);
             // Move the file pointer back by the size of User to update the record in the file
             fseek(fp, -sizeof(User), SEEK_CUR);
             // Write the updated user back to the file
