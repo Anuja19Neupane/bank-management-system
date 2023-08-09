@@ -127,8 +127,10 @@ void printTextAtCenter(char *text)
 {
 
     // find out terminl's width
-    struct winsize w;
+    struct winsize w; // holds information about the size of a terminal window.
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+        // STDOUT_FILENO is predefined constant representing the file descriptor for the standard output (stdout
+
     int terminalWidth = w.ws_col;
     int totalWidth = terminalWidth > 0 ? terminalWidth : 150; // Set a default value
 
@@ -140,7 +142,7 @@ void printTextAtCenter(char *text)
     // Print left-side padding
 
     // printf("totalWidth: %d, padding: %d, strlen(text): %d\n", totalWidth, padding, strlen(text));
-    // getchar();
+   
 
     for (int i = 0; i < padding; i++)
     {
