@@ -1,7 +1,7 @@
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+#include <stdlib.h> // to use srand() to generate random number
+#include <time.h> // to use time() function to  find current time
 #include <string.h>
 #include "utils.h"
 
@@ -64,6 +64,7 @@ void getInputDouble(double *input)
     sscanf(buffer, "%lf", input);
 }
 
+// for style
 int get_terminal_width()
 {
     struct winsize w;
@@ -94,7 +95,7 @@ void show_text(char *text, float fraction_x, float fraction_y)
     printf("\033[%d;%dH", ypos, xpos);
 
     printf("%s", text);
-    printf(ANSI_RESET);
+    printf(ANSI_RESET); // code used to reset the text formatting attributes of the terminal output
 
 }
 
