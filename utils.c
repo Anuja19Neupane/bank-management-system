@@ -133,6 +133,7 @@ void printTextAtCenter(char *text)
 
     int terminalWidth = w.ws_col;
     int totalWidth = terminalWidth > 0 ? terminalWidth : 150; // Set a default value
+        // terminalWidth > 0 vo vaney yesko value assign hunxa natra 150 set hunxa.
 
     // Calculate padding for horizontal centering
     int padding = (totalWidth - strlen(text)) / 2;
