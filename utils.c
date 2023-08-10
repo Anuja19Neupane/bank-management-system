@@ -5,12 +5,16 @@
 #include <string.h>
 #include "utils.h"
 
+// function defination for  unsigned long long 
 unsigned long long generate_random_10_digit_integer()
 {
     unsigned long long result = 0;
 
     // Seed the random number generator with the current time
+    // The srand() function is used to seed the random number generator 
+    //before generating random numbers using the rand() function.
     srand((unsigned int)time(NULL));
+ 
 
     // Generate the first 10 digits (each digit can be from 0 to 9)
     // rand() will generate random integers
@@ -46,23 +50,25 @@ void print_date(Date dt)
 {
     printf("%d/%d/%d\n", dt.year, dt.month, dt.day);
 }
+
+// get date 
 void get_date(Date dt, char *date_string)
 {
     sprintf(date_string, "%d/%d/%d ", dt.year, dt.month, dt.day);
 }
 
-void getInputString(char *input, int max_length)
-{
-    fgets(input, max_length, stdin);
-    input[strcspn(input, "\n")] = '\0'; // Remove the trailing newline
-}
+// void getInputString(char *input, int max_length)
+// {
+//     fgets(input, max_length, stdin);
+//     input[strcspn(input, "\n")] = '\0'; // Remove the trailing newline
+// }
 
-void getInputDouble(double *input)
-{
-    char buffer[100]; // buffer size milauxa
-    fgets(buffer, sizeof(buffer), stdin);
-    sscanf(buffer, "%lf", input);
-}
+// void getInputDouble(double *input)
+// {
+//     char buffer[100]; // buffer size milauxa
+//     fgets(buffer, sizeof(buffer), stdin);
+//     sscanf(buffer, "%lf", input);
+// }
 
 // for style
 int get_terminal_width()
@@ -159,7 +165,7 @@ void printTextAtCenter(char *text)
     }
     printf("\n");
 }
-// clear buffers
+// to clear buffers
 void clear_input_buffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF)
