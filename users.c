@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
-#include <stddef.h>
+#include <stddef.h> // for size_t 
 #include <stdbool.h>
 #include "users.h"
 #include "utils.h"
@@ -75,6 +75,9 @@ void save_user_to_database(User user)
     else
     {
         fwrite(&user, sizeof(User), 1, fp); // 1st argument is structure ko address
+                // sizeof operator returns the size of a data type or object in bytes.
+                // 3rd argument is  number of elements you want to write
+
     }
 
     fclose(fp);
