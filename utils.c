@@ -159,3 +159,9 @@ void printTextAtCenter(char *text)
     }
     printf("\n");
 }
+// clear buffers
+void clear_input_buffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
+}
