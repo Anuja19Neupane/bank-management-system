@@ -1,6 +1,6 @@
 #pragma once
-#include <sys/ioctl.h>
-#include <unistd.h>
+#include <sys/ioctl.h> // for ioctl()
+#include <unistd.h> // for sleep()
 
 
 // ANSI color codes
@@ -12,18 +12,19 @@
 #define ANSI_FG_WHITE "\x1b[97m"
 #define ANSI_BG_LIGHT_GRAY "\x1b[100m"
 #define ANSI_BG_YELLOW "\033[43m"
+#define ANSI_BG_RED "\x1b[41m"
+#define ANSI_BG_MAGENTA "\x1b[45m"
+#define ANSI_BG_CYAN "\x1b[46m"
+#define ANSI_BG_WHITE "\x1b[47m"
 #define ANSI_FG_RED "\x1b[31m"
 #define ANSI_FG_GREEN "\x1b[32m"
 #define ANSI_FG_YELLOW "\x1b[33m"
 #define ANSI_FG_BLUE "\x1b[34m"
 #define ANSI_FG_MAGENTA "\x1b[35m"
 #define ANSI_FG_CYAN "\x1b[36m"
-#define ANSI_BG_RED "\x1b[41m"
-#define ANSI_BG_MAGENTA "\x1b[45m"
-#define ANSI_BG_CYAN "\x1b[46m"
-#define ANSI_BG_WHITE "\x1b[47m"
 
-
+// function declaration for  unsigned long long 
+// trying to replace  unsigned long long as very_long_int
 typedef unsigned long long very_long_int; 
 
 // structure for date
