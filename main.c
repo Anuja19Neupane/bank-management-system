@@ -138,6 +138,7 @@ void login_page()
     system("clear");
 }
 // create_account_page function defination
+
 void create_account_page()
 {
     float vertical_line_gap = 0.05;
@@ -150,57 +151,38 @@ void create_account_page()
     char password[50];
     User user;
 
-    // printf("Create user page\n");
-
     show_text("Enter your name: ", 0.4, 0.2);
     scanf("%s", name);
+    clear_input_buffer();
 
-    while (getchar() != '\n')
-        ;
-
-    // Clear the input buffer after reading the string
     show_text("Enter your phone number: ", 0.4, 0.2 + vertical_line_gap);
-
     scanf("%llu", &phone_number);
-    while (getchar() != '\n')
-        ;
-    // Clear the input buffer after reading the number
-    show_text("Enter your adress: ", 0.4, 0.2 + 2 * vertical_line_gap);
+    clear_input_buffer();
 
+    show_text("Enter your address: ", 0.4, 0.2 + 2 * vertical_line_gap);
     scanf("%s", address);
-    while (getchar() != '\n')
-        ;
-    // Clear the input buffer after reading the string
+    clear_input_buffer();
+
     show_text("Enter your birth year: ", 0.4, 0.2 + 3 * vertical_line_gap);
-
     scanf("%d", &birth_year);
-    while (getchar() != '\n')
-        ;
-    // Clear the input buffer after reading the number
+    clear_input_buffer();
+
     show_text("Enter your birth month: ", 0.4, 0.2 + 4 * vertical_line_gap);
-
     scanf("%d", &birth_month);
-    while (getchar() != '\n')
-        ;
-    // Clear the input buffer after reading the number
+    clear_input_buffer();
+
     show_text("Enter your birth day: ", 0.4, 0.2 + 5 * vertical_line_gap);
-
     scanf("%d", &birth_day);
-    while (getchar() != '\n')
-        ;
-    // Clear the input buffer after reading the number
+    clear_input_buffer();
+
     show_text("Enter your password: ", 0.4, 0.2 + 6 * vertical_line_gap);
-
     scanf("%s", password);
-    while (getchar() != '\n')
-        ;
-    // Clear the input buffer after reading the string
+    clear_input_buffer();
 
-    show_text("User account sucessfully created.\n", 0.4, 0.2 + 7 * vertical_line_gap);
-    // fflush(stdout);
+    show_text("User account successfully created.\n", 0.4, 0.2 + 7 * vertical_line_gap);
     sleep(2);
     system("clear");
-    // function call
+
     user = create_user(name, password, address, birth_year, birth_month, birth_day, phone_number);
     save_user_to_database(user);
     strcpy(current_page, "login_page");
