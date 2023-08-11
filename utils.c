@@ -1,20 +1,19 @@
 
 #include <stdio.h>
 #include <stdlib.h> // to use srand() to generate random number
-#include <time.h> // to use time() function to  find current time
+#include <time.h>   // to use time() function to  find current time
 #include <string.h>
 #include "utils.h"
 
-// function defination for  unsigned long long 
+// function defination for  unsigned long long
 unsigned long long generate_random_10_digit_integer()
 {
     unsigned long long result = 0;
 
     // Seed the random number generator with the current time
-    // The srand() function is used to seed the random number generator 
-    //before generating random numbers using the rand() function.
+    // The srand() function is used to seed the random number generator
+    // before generating random numbers using the rand() function.
     srand((unsigned int)time(NULL));
- 
 
     // Generate the first 10 digits (each digit can be from 0 to 9)
     // rand() will generate random integers
@@ -51,7 +50,7 @@ void print_date(Date dt)
     printf("%d/%d/%d\n", dt.year, dt.month, dt.day);
 }
 
-// get date 
+// get date
 void get_date(Date dt, char *date_string)
 {
     sprintf(date_string, "%d/%d/%d ", dt.year, dt.month, dt.day);
@@ -97,12 +96,10 @@ void show_text(char *text, float fraction_x, float fraction_y)
     int xpos = (int)(fraction_x * terminal_width);
     int ypos = (int)(fraction_y * terminal_height);
 
-   
     printf("\033[%d;%dH", ypos, xpos);
 
     printf("%s", text);
     printf(ANSI_RESET); // code used to reset the text formatting attributes of the terminal output
-
 }
 
 void printArbritaryPosition(char *text, float horizantal_fraction)
@@ -135,11 +132,11 @@ void printTextAtCenter(char *text)
     // find out terminl's width
     struct winsize w; // holds information about the size of a terminal window.
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-        // STDOUT_FILENO is predefined constant representing the file descriptor for the standard output (stdout
+    // STDOUT_FILENO is predefined constant representing the file descriptor for the standard output (stdout
 
     int terminalWidth = w.ws_col;
     int totalWidth = terminalWidth > 0 ? terminalWidth : 150; // Set a default value
-        // terminalWidth > 0 vo vaney yesko value assign hunxa natra 150 set hunxa.
+                                                              // terminalWidth > 0 vo vaney yesko value assign hunxa natra 150 set hunxa.
 
     // Calculate padding for horizontal centering
     int padding = (totalWidth - strlen(text)) / 2;
@@ -149,7 +146,6 @@ void printTextAtCenter(char *text)
     // Print left-side padding
 
     // printf("totalWidth: %d, padding: %d, strlen(text): %d\n", totalWidth, padding, strlen(text));
-   
 
     for (int i = 0; i < padding; i++)
     {
@@ -166,7 +162,10 @@ void printTextAtCenter(char *text)
     printf("\n");
 }
 // to clear buffers
-void clear_input_buffer() {
+void clear_input_buffer()
+{
     int c;
-    clear_input_buffer();
+    while ((c = getchar()) != '\n' && c != EOF)
+    {
+    }
 }
