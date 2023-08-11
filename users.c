@@ -148,7 +148,8 @@ User *get_all_users(int *num_users_pointer)
         printf("There is an error with memory allocation.\n");
         return 0;
     }
-    size_t read_users = fread(users, sizeof(User), *num_users_pointer, fp); // size_t will give size of object in bytes
+    size_t read_users = fread(users, sizeof(User), *num_users_pointer, fp); 
+            // size_t will give size of object in bytes
 
     fclose(fp);
     // now compare the number of users to the users read
@@ -156,7 +157,8 @@ User *get_all_users(int *num_users_pointer)
     {
         free(users); // deallocating dynamically allocated memory
         // malloc use garera allocate garekoxa ,
-        // jaba tesko kaam sakinxa we have to deallocate it otherwise it will result in memory leakage and memory becomes inaccessible
+        // jaba tesko kaam sakinxa we have to deallocate it otherwise it will result in memory leakage
+            // and memory becomes inaccessible
 
         users = NULL;
         // deallocate gareyapxi users lai NULL set garnu is good practise
@@ -275,11 +277,11 @@ float get_account_balance(very_long_int phone_number)
     {
         printf("Couldn't open the database file.\n");
         // Return an invalid balance value to indicate failure
-        return -1.0f;
+        return -1.0f; // this is to indicate failure
     }
 
     // Search for the user with the given phone number
-    while (fread(&user, sizeof(User), 1, fp) == 1)
+    while (fread(&user, sizeof(User), 1, fp) == 1)  // 1 is the number of elemnts we want to read
     {
         if (user.phone_number == phone_number)
         {
@@ -337,7 +339,7 @@ bool validate_user(very_long_int phone_number, const char *user_password)
     return false;
 }
 
-// print all users
+// print all users to test if the function's working properly
 User print_all_users()
 {
     int num_users = 0;
