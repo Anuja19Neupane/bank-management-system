@@ -168,6 +168,5 @@ void printTextAtCenter(char *text)
 // to clear buffers
 void clear_input_buffer() {
     int c;
-    while ((c = getchar()) != '\n' && c != EOF)
-        ;
+    clear_input_buffer();
 }
