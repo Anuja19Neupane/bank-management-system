@@ -3,6 +3,7 @@
 #include <string.h>
 #include "transaction.h"
 #include "utils.h"
+#include "users.h"
 
 char TRANSACTION_DB_FILE[50] = "./TRANSACTIONS.dat";
 
@@ -44,6 +45,7 @@ int save_transaction_to_database(Transaction trans)
     return 1;
 }
 
+// function to get transactions by acc. num
 int get_transactions_by_acc_number(very_long_int acc_number, Transaction *transactions)
 {
     Transaction t;
@@ -78,19 +80,19 @@ int get_transactions_by_acc_number(very_long_int acc_number, Transaction *transa
     return i;
 }
 
-// Function definitions without printf
+// 
 int createTransaction(float amount, char *remarks, very_long_int account_number, Transaction *transaction)
 {
-    transaction->amount = amount; // arrow is used to access properties of struct using pointer to the structure
-    transaction->account = account_number;
+    transaction->amount = amount; 
+    transaction->account = account_number; 
+        // arrow operator (->) is used to access members of a structure or class through a pointer
     strcpy(transaction->remarks, remarks);
     transaction->date = get_current_date();
 
     return save_transaction_to_database(*transaction);
 }
 
-// print transaction
-
+// function defination to print transaction
 void print_transaction(Transaction t)
 {
     if (t.amount >= 0)
@@ -111,6 +113,7 @@ void print_transaction(Transaction t)
     printf("\n");
 }
 
+// printin transactions usin for loop
 void print_transactions(Transaction *transactions, int size)
 {
     for (int i = 0; i < size; i++)
@@ -119,6 +122,7 @@ void print_transactions(Transaction *transactions, int size)
     }
 }
 
+// function defination to show transaction
 void show_transaction(Transaction t, int row_no, int vertical_offset)
 {
     char date_str[15];
@@ -148,6 +152,8 @@ void show_transaction(Transaction t, int row_no, int vertical_offset)
     printf("%-15.2f", t.amount);
     printf(ANSI_RESET "\n");
 }
+
+// using for loop to show transactions
 void show_transactions(Transaction *transactions, int size, int vertical_offset)
 {
     int terminal_width = get_terminal_width();
