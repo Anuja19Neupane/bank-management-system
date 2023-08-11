@@ -18,18 +18,19 @@ void profile_page();
 void deposit_page();
 void withdraw_page();
 
+ // main function
 int main()
 {
 
     strcpy(current_page, "main_page");
-    system("clear");
+    system("clear"); //stdlib
     while (true)
     {
         printf(ANSI_BOLD ANSI_BG_BLUE ANSI_FG_WHITE);
         printTextAtCenter("");
         printTextAtCenter("Bank Management System");
         printTextAtCenter("");
-        printf(ANSI_RESET "\n");
+        printf(ANSI_RESET "\n"); //escape code
 
         if (strcmp(current_page, "main_page") == 0)
         {
@@ -42,19 +43,19 @@ int main()
         {
             printf(ANSI_BOLD ANSI_UNDERLINE ANSI_BG_GREEN ANSI_FG_WHITE);
             show_text("Sign Up Page\n", 0.45, 0.15);
-            create_account_page();
+            create_account_page(); // function call
         }
 
         else if (strcmp(current_page, "login_page") == 0)
         {
             printf(ANSI_BOLD ANSI_UNDERLINE ANSI_BG_GREEN ANSI_FG_WHITE);
             show_text("Login Page\n", 0.45, 0.15);
-            login_page();
+            login_page(); //function call
         }
 
         else if (strcmp(current_page, "profile_page") == 0)
         {
-            profile_page();
+            profile_page();//function call
         }
 
         else if (strcmp(current_page, "withdraw_page") == 0)
