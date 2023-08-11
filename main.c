@@ -108,16 +108,12 @@ void login_page()
     char password[50];
 
     show_text("Enter your phone number: ", 0.4, 0.2);
-
     scanf("%llu", &phone_number);
-    while (getchar() != '\n')
-        ;
+    clear_input_buffer();
 
     show_text("Enter your password: ", 0.4, 0.25);
-
     scanf("%s", password);
-    while (getchar() != '\n')
-        ;
+    clear_input_buffer();
 
     bool is_valid = validate_user(phone_number, password);
     if (is_valid)
@@ -200,17 +196,16 @@ void deposit_page()
     show_text("Enter your phone number: ", 0.4, 0.2);
 
     scanf("%llu", &phone_number);
-    while (getchar() != '\n')
-        ;
+    clear_input_buffer();
+        
     show_text("Enter amount to be deposited: ", 0.4, 0.25);
     scanf("%f", &amount);
-    while (getchar() != '\n')
-        ;
+    clear_input_buffer();
+        
 
     show_text("Enter remarks: ", 0.4, 0.30);
     scanf("%s", remarks);
-    while (getchar() != '\n')
-        ;
+    clear_input_buffer();
 
     // function call to update the balance
     User updated_user = update_balance(phone_number, amount);
@@ -242,17 +237,12 @@ void withdraw_page()
     Transaction tran;
 
     show_text("Enter your phone number: ", 0.4, 0.2);
-
     scanf("%llu", &phone_number);
-    while (getchar() != '\n')
-        ;
+    clear_input_buffer();
 
     show_text("Enter your password: ", 0.4, 0.25);
-
     scanf("%s", password);
-    while (getchar() != '\n')
-        ;
-    ;
+     clear_input_buffer();
 
     // Check if the user with the given phone number and password exists
     bool is_valid_user = validate_user(phone_number, password);
@@ -263,16 +253,12 @@ void withdraw_page()
     }
 
     show_text("Withdraw amount: ", 0.4, 0.30);
-
     scanf("%f", &amount);
-    while (getchar() != '\n')
-        ;
+    clear_input_buffer();
 
     show_text("Enter remarks: ", 0.4, 0.4);
-
     scanf("%s", remarks);
-    while (getchar() != '\n')
-        ;
+    clear_input_buffer();
 
     // Check if the withdrawal amount is valid
     float account_balance = get_account_balance(phone_number);
@@ -338,8 +324,7 @@ void profile_page()
     int wd_or_dp;
     show_text("Enter your choice:", 0.25, 0.8);
     scanf("%d", &wd_or_dp);
-    while (getchar() != '\n')
-        ;
+    clear_input_buffer();
 
     if (wd_or_dp == 1)
     {
